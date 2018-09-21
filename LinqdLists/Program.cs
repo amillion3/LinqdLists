@@ -129,20 +129,18 @@ namespace LinqdLists
                     66, 12, 8, 27, 82, 34, 7, 50, 19, 46, 81, 23, 30, 4, 68, 14
                 };
 
+            var noSquares = wheresSquaredo.TakeWhile(i => Math.Sqrt(i) != Convert.ToInt32(Math.Sqrt(i)));
+
             List<int> shortOne = new List<int>();
 
-            var abcdef = from number3 in wheresSquaredo
-                         where Math.Sqrt(number3) != Convert.ToInt32(Math.Sqrt(number3))
-                         select number3;
-
             Console.WriteLine("Squared numbers:");
-            foreach (var f in abcdef)
+            foreach (var f in noSquares)
             {
-                shortOne.Add(f);
                 Console.WriteLine(f);
             }
             Console.ReadLine();
             Console.WriteLine("");
+
 
         }
     }
