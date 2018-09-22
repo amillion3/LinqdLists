@@ -53,48 +53,20 @@ namespace LinqdLists
                              join b in banks on c.Bank equals b.Symbol into ps
                              select new { Customer = c, Bank = ps };
 
+            
+
             foreach (var j in joinedList)
             {
-                Console.WriteLine(j.Bank);
-                Console.WriteLine(j.Customer);
+                Console.WriteLine(j.Customer.Name);
+                Console.WriteLine(j.Customer.Bank);
             }
             Console.ReadLine();
             Console.WriteLine("");
-
-            //string[] categories = new string[]{
-            //    "Beverages",
-            //    "Seafood" };
-
-            //List<Product> products = GetProductList();
-
-            //var q =
-            //    from c in categories
-            //    join p in products on c equals p.Category into ps
-            //    select new { Category = c, Products = ps };
-
-            //foreach (var v in q)
-            //{
-            //    Console.WriteLine(v.Category + ":");
-            //    foreach (var p in v.Products)
-            //    {
-            //        Console.WriteLine("   " + p.ProductName);
-            //    }
-            //}
 
 
             //var results = from r in richPeople
             //              group r.Bank by r.Name into g
             //              select new { Name = g.Key, Bank = g.ToList() };
-
-            //foreach (var res in g)
-            //{
-            //    Console.WriteLine(res);
-            //}
-            //Console.ReadLine();
-            //Console.WriteLine("");
-
-
-
             /* 
                 Given the same customer set, display how many millionaires per bank.
                 Ref: https://stackoverflow.com/questions/7325278/group-by-in-linq
