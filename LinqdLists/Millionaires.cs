@@ -6,9 +6,14 @@ namespace LinqdLists
 {
     class Millionaires
     {
-        private static IEnumerable<object> g;
-
         // Build a collection of customers who are millionaires
+
+        public class Bank
+        {
+            public string Symbol { get; set; }
+            public string Name { get; set; }
+        }
+
         public class Customer
         {
             public string Name { get; set; }
@@ -16,14 +21,17 @@ namespace LinqdLists
             public string Bank { get; set; }
         }
 
-        class Result
-        {
-            public int Name;
-            public List<string> Banks;
-        }
-
         public static void RichFolk()
             {
+            // Create some banks and store in a List
+                List<Bank> banks = new List<Bank>() {
+                    new Bank(){ Name="First Tennessee", Symbol="FTB"},
+                    new Bank(){ Name="Wells Fargo", Symbol="WF"},
+                    new Bank(){ Name="Bank of America", Symbol="BOA"},
+                    new Bank(){ Name="Citibank", Symbol="CITI"},
+                };
+
+            // Create some customers and store in a List
                 List<Customer> customers = new List<Customer>() {
                     new Customer(){ Name="Bob Lesman", Balance=80345.66, Bank="FTB"},
                     new Customer(){ Name="Joe Landy", Balance=9284756.21, Bank="WF"},
@@ -37,48 +45,66 @@ namespace LinqdLists
                     new Customer(){ Name="Sid Brown", Balance=49582.68, Bank="CITI"}
                 };
 
-            var richPeople = from c in customers
-                             where c.Balance >= 1000000
-                             select c;
+            //var richPeople = from c in customers
+            //                 where c.Balance >= 1000000
+            //                 select c;
 
-            //var results = from r in richPeople
-            //              group r.Bank by r.Name into g
-            //              select new { Name = g.Key, Bank = g.ToList() };
-            List<Result> results1 = (
-                    from p in richPeople
-                    group p.Bank by p.Name into g
-                    select new Result()
-                    {
-                        Name = g.,
-                        Banks = g.ToList(),
-                    }
+            var joinedList = from c in customers
+                             join b in banks on c.Bank equals b.Symbol into ps
+                             select new { Customer = c, Bank = ps };
 
-            foreach (var res in g)
+            foreach (var j in joinedList)
             {
-                Console.WriteLine(res);
+                Console.WriteLine(j.Bank);
+                Console.WriteLine(j.Customer);
             }
             Console.ReadLine();
             Console.WriteLine("");
 
-            //List<Result> results1 = (
-            //from p in persons
-            //group p by p.PersonId into g
-            //select new Result()
+            //string[] categories = new string[]{
+            //    "Beverages",
+            //    "Seafood" };
+
+            //List<Product> products = GetProductList();
+
+            //var q =
+            //    from c in categories
+            //    join p in products on c equals p.Category into ps
+            //    select new { Category = c, Products = ps };
+
+            //foreach (var v in q)
             //{
-            //    PersonId = g.Key,
-            //    Cars = g.Select(c => c.car).ToList()
+            //    Console.WriteLine(v.Category + ":");
+            //    foreach (var p in v.Products)
+            //    {
+            //        Console.WriteLine("   " + p.ProductName);
+            //    }
             //}
 
-        /* 
-            Given the same customer set, display how many millionaires per bank.
-            Ref: https://stackoverflow.com/questions/7325278/group-by-in-linq
 
-            Example Output:
-            WF 2
-            BOA 1
-            FTB 1
-            CITI 1
-        */
-    }
+            //var results = from r in richPeople
+            //              group r.Bank by r.Name into g
+            //              select new { Name = g.Key, Bank = g.ToList() };
+
+            //foreach (var res in g)
+            //{
+            //    Console.WriteLine(res);
+            //}
+            //Console.ReadLine();
+            //Console.WriteLine("");
+
+
+
+            /* 
+                Given the same customer set, display how many millionaires per bank.
+                Ref: https://stackoverflow.com/questions/7325278/group-by-in-linq
+
+                Example Output:
+                WF 2
+                BOA 1
+                FTB 1
+                CITI 1
+            */
+        }
     }
 }
