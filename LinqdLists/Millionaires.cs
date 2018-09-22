@@ -53,29 +53,44 @@ namespace LinqdLists
                              join b in banks on c.Bank equals b.Symbol into ps
                              select new { Customer = c, Bank = ps };
 
-            var bankSymbols = joinedList.GroupBy(b => b.Bank);
+            //var bankSymbols = joinedList.GroupBy(b => b.Bank);
 
-            foreach (var bb in bankSymbols)
+            //foreach (var bb in bankSymbols)
+            //{
+            //    Console.WriteLine(value: bb.Key);
+            //    Console.WriteLine(bb.ToString());
+            //    foreach (var i in bb)
+            //    {
+            //        Console.WriteLine(value: "\t" + i.Customer.Bank);
+            //    }
+            //}
+
+            var bankCounts = from j in joinedList
+                             select new {bankSymbol = j.Bank, OrderCount = j.Bank.Count() };
+            foreach (var bb in bankCounts)
             {
-                Console.WriteLine(value: bb.Key);
-                foreach (var i in bb)
+                foreach (var abcd in bb.bankSymbol)
                 {
-                    Console.WriteLine(value: "\t" + i.Customer.Bank);
+                    Console.WriteLine(abcd.Symbol);
+                    Console.WriteLine(abcd.Name);
                 }
+                //Console.WriteLine(bb.OrderCount);
+                //Console.WriteLine(bb.bankSymbol);
             }
-
-  //          foreach (var product in groups)
-  //              10: {
-  //              11:     Console.WriteLine(product.Key);
-  //              12:  
-  //13:     foreach (var item in product)
-  //                  14:     {
-  //                  15:         Console.WriteLine("\t" + item);
-  //                  16:     }
-  //              17: }
 
             Console.ReadLine();
             Console.WriteLine("");
+
+            //public void Linq76()
+            //{
+            //    List<Customer> customers = GetCustomerList();
+
+            //    var orderCounts =
+            //        from c in customers
+            //        select new { c.CustomerID, OrderCount = c.Orders.Count() };
+
+            //    ObjectDumper.Write(orderCounts);
+            //}
             //var bankSymbols = joinedList.ToLookup(b => b.Bank);
 
             //foreach (var bb in bankSymbols)
