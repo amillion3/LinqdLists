@@ -45,32 +45,81 @@ namespace LinqdLists
                     new Customer(){ Name="Sid Brown", Balance=49582.68, Bank="CITI"}
                 };
 
-            //var richPeople = from c in customers
-            //                 where c.Balance >= 1000000
-            //                 select c;
+            var richPeople = from c in customers
+                             where c.Balance >= 1000000
+                             select c;
+            // var richPeople = customers.Where(c => c.Balance > 1000000);
 
-            HashSet<string> uniqueBankSymbols = new HashSet<string>();
-            Dictionary<string, int> bankCount = new Dictionary<string, int>();
+            var richPeoplePerBank = customers
+                .GroupBy(c => c.Bank) // Groups customers by Bank (the symbol of the bank)
+                .Aggregate(new Dictionary<string, int>(), (acc, current) =>
+                {
+                    acc.Add(current.Key, current.Where(x => x.Balance > 1000000).Count());
+                    return acc;
+                });
 
-            var joinedList = from c in customers
-                             join b in banks on c.Bank equals b.Symbol into bs
-                             select new { Customer = c, BankSymbol = bs };
+            //var millionairesPerBank = customers
+            //    .GroupBy(cust => cust.Bank)
+            //    .Aggregate(new Dictionary<string, int>(), (acc, current) =>
+            //    {
+            //        acc.Add(current.Key, current.Where(x => x.Balance > 1000000).Count());
+            //        return acc;
+            //    });
 
-            foreach(var j in joinedList)
-            {
-                uniqueBankSymbols.Add(item: j.Customer.Bank);
-            }
+            //foreach (var bank in millionairesPerBank)
+            //{
+            //    Console.WriteLine($"Bank: {bank.Key}, Millionaires: {bank.Value}");
+            //}
 
-            foreach(var ubs in uniqueBankSymbols)
-            {
-                Console.WriteLine(ubs);
-                bankCount.Add(ubs, 0);
-            }
 
-            foreach(var jjj in joinedList)
-            {
-                bankCount.Aggregate(jjj.BankSymbol)
-            }
+            //var joinedList = from c in customers
+            //                 join b in banks on c.Bank equals b.Symbol into bs
+            //                 select new { Customer = c, BankSymbol = bs };
+            //foreach( var j in joinedList)
+            //{
+            //    Console.WriteLine(value: j.BankSymbol.ToString());
+            //}
+
+
+            //foreach (var r in results)
+            //{
+            //    Console.WriteLine(r.BankName[0]);
+            //    Console.WriteLine(r.NameId);
+                
+            //}
+
+            //var queryLastNames =
+            //                    from student in students
+            //                    group student by student.LastName into newGroup
+            //                    orderby newGroup.Key
+            //                    select newGroup;
+
+            //var results = from p in persons
+            //              group p.car by p.PersonId into g
+            //              select new { PersonId = g.Key, Cars = g.ToList() };
+
+            //HashSet<string> uniqueBankSymbols = new HashSet<string>();
+            //Dictionary<string, int> bankCount = new Dictionary<string, int>();
+
+            //var joinedList = from c in customers
+            //                 join b in banks on c.Bank equals b.Symbol into bs
+            //                 select new { Customer = c, BankSymbol = bs };
+
+            //foreach(var j in joinedList)
+            //{
+            //    uniqueBankSymbols.Add(item: j.Customer.Bank);
+            //}
+
+            //foreach(var ubs in uniqueBankSymbols)
+            //{
+            //    Console.WriteLine(ubs);
+            //    bankCount.Add(ubs, 0);
+            //}
+
+            //foreach(var jjj in joinedList)
+            //{
+            //    bankCount.Aggregate(jjj.BankSymbol)
+            //}
             //var bankSymbols = joinedList.GroupBy(b => b.Bank);
 
             //foreach (var bb in bankSymbols)
