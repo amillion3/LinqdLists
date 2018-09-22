@@ -49,10 +49,28 @@ namespace LinqdLists
             //                 where c.Balance >= 1000000
             //                 select c;
 
-            var joinedList = from c in customers
-                             join b in banks on c.Bank equals b.Symbol into ps
-                             select new { Customer = c, Bank = ps };
+            HashSet<string> uniqueBankSymbols = new HashSet<string>();
+            Dictionary<string, int> bankCount = new Dictionary<string, int>();
 
+            var joinedList = from c in customers
+                             join b in banks on c.Bank equals b.Symbol into bs
+                             select new { Customer = c, BankSymbol = bs };
+
+            foreach(var j in joinedList)
+            {
+                uniqueBankSymbols.Add(item: j.Customer.Bank);
+            }
+
+            foreach(var ubs in uniqueBankSymbols)
+            {
+                Console.WriteLine(ubs);
+                bankCount.Add(ubs, 0);
+            }
+
+            foreach(var jjj in joinedList)
+            {
+                bankCount.Aggregate(jjj.BankSymbol)
+            }
             //var bankSymbols = joinedList.GroupBy(b => b.Bank);
 
             //foreach (var bb in bankSymbols)
@@ -65,18 +83,18 @@ namespace LinqdLists
             //    }
             //}
 
-            var bankCounts = from j in joinedList
-                             select new {bankSymbol = j.Bank, OrderCount = j.Bank.Count() };
-            foreach (var bb in bankCounts)
-            {
-                foreach (var abcd in bb.bankSymbol)
-                {
-                    Console.WriteLine(abcd.Symbol);
-                    Console.WriteLine(abcd.Name);
-                }
-                //Console.WriteLine(bb.OrderCount);
-                //Console.WriteLine(bb.bankSymbol);
-            }
+            //var bankCounts = from j in joinedList
+            //                 select new {bankSymbol = j.Bank, OrderCount = j.Bank.Count() };
+            //foreach (var bb in bankCounts)
+            //{
+            //    foreach (var abcd in bb.bankSymbol)
+            //    {
+            //        Console.WriteLine(abcd.Symbol);
+            //        Console.WriteLine(abcd.Name);
+            //    }
+            //    //Console.WriteLine(bb.OrderCount);
+            //    //Console.WriteLine(bb.bankSymbol);
+            //}
 
             Console.ReadLine();
             Console.WriteLine("");
