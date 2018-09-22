@@ -53,15 +53,55 @@ namespace LinqdLists
                              join b in banks on c.Bank equals b.Symbol into ps
                              select new { Customer = c, Bank = ps };
 
-            
+            var bankSymbols = joinedList.GroupBy(b => b.Bank);
 
-            foreach (var j in joinedList)
+            foreach (var bb in bankSymbols)
             {
-                Console.WriteLine(j.Customer.Name);
-                Console.WriteLine(j.Customer.Bank);
+                Console.WriteLine(value: bb.Key);
+                foreach (var i in bb)
+                {
+                    Console.WriteLine(value: "\t" + i.Customer.Bank);
+                }
             }
+
+  //          foreach (var product in groups)
+  //              10: {
+  //              11:     Console.WriteLine(product.Key);
+  //              12:  
+  //13:     foreach (var item in product)
+  //                  14:     {
+  //                  15:         Console.WriteLine("\t" + item);
+  //                  16:     }
+  //              17: }
+
             Console.ReadLine();
             Console.WriteLine("");
+            //var bankSymbols = joinedList.ToLookup(b => b.Bank);
+
+            //foreach (var bb in bankSymbols)
+            //{
+            //    //Console.WriteLine(bb.Key);
+            //    foreach (var item in bb)
+            //    {
+            //        Console.WriteLine(value: item.Bank.Count());
+            //    }
+            //}
+
+            //HashSet<string> bankSymbols = new HashSet<string>();
+
+            //foreach (var j in joinedList)
+            //{
+            //    foreach(var k in j.Bank)
+            //    {
+            //        bankSymbols.Add(k.Symbol);
+            //    }
+            //    //Console.WriteLine(j.Customer.Name);
+            //    //Console.WriteLine(j.Customer.Bank);
+            //}
+            //foreach (var bb in bankSymbols)
+            //{
+            //    Console.WriteLine(bb);
+            //}
 
 
             //var results = from r in richPeople
